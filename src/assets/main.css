@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  
+  body {
+    @apply bg-cream text-ink-900 font-body;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(196, 93, 58, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(122, 154, 122, 0.03) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+  
+  ::selection {
+    @apply bg-rust/20 text-rust;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cream;
+  }
+  
+  .btn-primary {
+    @apply btn bg-ink-900 text-cream hover:bg-ink-800 focus:ring-ink-900 shadow-soft hover:shadow-lifted;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-parchment text-ink-700 hover:bg-ink-100 border border-ink-200 focus:ring-ink-400;
+  }
+  
+  .btn-danger {
+    @apply btn bg-rust/10 text-rust hover:bg-rust/20 focus:ring-rust;
+  }
+  
+  .input {
+    @apply w-full px-4 py-3 rounded-lg border border-ink-200 bg-white/80 text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-ink-900 focus:border-transparent transition-all duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl border border-ink-100 shadow-soft;
+  }
+  
+  .link {
+    @apply text-rust hover:text-rust/80 underline underline-offset-2 decoration-rust/30 hover:decoration-rust transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-ink-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-ink-400;
+}
+
+/* Checkbox animation */
+.checkbox-mark {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.checkbox-checked .checkbox-mark {
+  stroke-dashoffset: 0;
+}
