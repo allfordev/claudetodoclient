@@ -1,0 +1,18 @@
+{
+  "name": "vue-todo-app",
+  "version": "1.0.0",
+  "description": "A simple and elegant todo list application built with Vue.js 3",
+  "main": "index.html",
+  "scripts": {
+    "start": "open index.html"
+  },
+  "keywords": [
+    "vue",
+    "todo",
+    "todo-app",
+    "vuejs",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT"
+}

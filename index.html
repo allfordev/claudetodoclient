@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js Todo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>My Todo List</h1>
+
+            <div class="input-section">
+                <input
+                    v-model="newTodo"
+                    @keyup.enter="addTodo"
+                    type="text"
+                    placeholder="Add a new todo..."
+                    class="todo-input"
+                >
+                <button @click="addTodo" class="add-btn">Add</button>
+            </div>
+
+            <div class="filters">
+                <button
+                    @click="filter = 'all'"
+                    :class="{ active: filter === 'all' }"
+                >All ({{ todos.length }})</button>
+                <button
+                    @click="filter = 'active'"
+                    :class="{ active: filter === 'active' }"
+                >Active ({{ activeTodos.length }})</button>
+                <button
+                    @click="filter = 'completed'"
+                    :class="{ active: filter === 'completed' }"
+                >Completed ({{ completedTodos.length }})</button>
+            </div>
+
+            <ul class="todo-list">
+                <li v-for="todo in filteredTodos" :key="todo.id" class="todo-item">
+                    <div class="todo-content">
+                        <input
+                            type="checkbox"
+                            v-model="todo.completed"
+                            class="todo-checkbox"
+                        >
+                        <span :class="{ completed: todo.completed }" class="todo-text">
+                            {{ todo.text }}
+                        </span>
+                    </div>
+                    <button @click="removeTodo(todo.id)" class="delete-btn">Delete</button>
+                </li>
+            </ul>
+
+            <div v-if="completedTodos.length > 0" class="clear-section">
+                <button @click="clearCompleted" class="clear-btn">
+                    Clear Completed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
