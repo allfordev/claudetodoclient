@@ -41,6 +41,16 @@ function formatDate(dateStr) {
   if (!dateStr) return null
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
+
+function formatDateTime(dateStr) {
+  if (!dateStr) return null
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
+  })
+}
 </script>
 
 <template>
@@ -90,7 +100,7 @@ function formatDate(dateStr) {
           </p>
           
           <div class="flex items-center gap-3 mt-2">
-            <span 
+            <span
               class="text-xs px-2 py-0.5 rounded-full font-medium capitalize"
               :class="priorityColors[todo.priority]"
             >
@@ -98,6 +108,9 @@ function formatDate(dateStr) {
             </span>
             <span v-if="todo.dueDate" class="text-xs text-ink-400">
               Due {{ formatDate(todo.dueDate) }}
+            </span>
+            <span v-if="todo.completed && todo.completedAt" class="text-xs text-sage font-medium">
+              Completed {{ formatDateTime(todo.completedAt) }}
             </span>
           </div>
         </div>
