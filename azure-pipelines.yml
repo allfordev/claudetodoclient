@@ -68,8 +68,8 @@ stages:
                   --name ca-taskbook-backend \
                   --resource-group $(resourceGroup) \
                   --query "properties.configuration.ingress.fqdn" -o tsv)
-                echo "##vso[task.setvariable variable=backendUrl]https://${BACKEND_FQDN}"
-                echo "Backend URL: https://${BACKEND_FQDN}"
+                echo "##vso[task.setvariable variable=backendUrl]https://${BACKEND_FQDN}/api"
+                echo "Backend URL: https://${BACKEND_FQDN}/api"
 
           - task: AzureCLI@2
             displayName: 'Build and Push to ACR'
