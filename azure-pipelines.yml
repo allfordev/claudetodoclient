@@ -64,6 +64,13 @@ stages:
                 echo "##vso[task.setvariable variable=acrNameResolved]${ACR_NAME}"
                 echo "ACR Name: ${ACR_NAME}"
 
+                BACKEND_FQDN=$(az containerapp show \
+                  --name ca-taskbook-backend \
+                  --resource-group $(resourceGroup) \
+                  --query "properties.configuration.ingress.fqdn" -o tsv)
+                echo "##vso[task.setvariable variable=backendUrl]https://${BACKEND_FQDN}"
+                echo "Backend URL: https://${BACKEND_FQDN}"
+
           - task: AzureCLI@2
             displayName: 'Build and Push to ACR'
             inputs:
@@ -75,6 +82,7 @@ stages:
                   --registry $(acrNameResolved) \
                   --image $(imageName):$(Build.BuildId) \
                   --image $(imageName):latest \
+                  --build-arg VITE_API_BASE_URL=$(backendUrl) \
                   --file Dockerfile \
                   .
 

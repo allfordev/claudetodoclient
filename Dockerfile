@@ -11,6 +11,10 @@ RUN npm ci
 # Copy source
 COPY . .
 
+# Build argument for API URL (set at build time)
+ARG VITE_API_BASE_URL=/api
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
 # Build the application
 RUN npm run build
 
@@ -24,8 +28,8 @@ RUN rm -rf ./*
 # Copy built files
 COPY --from=build /app/dist .
 
-# Copy nginx config as template
-COPY nginx.conf /etc/nginx/templates/default.conf.template
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port
 EXPOSE 80
@@ -34,9 +38,4 @@ EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
 
-# Default values for local development
-ENV BACKEND_URL=http://host.docker.internal:8080
-ENV BACKEND_HOST=localhost
-
-# Use envsubst to substitute environment variables at startup
-CMD ["/bin/sh", "-c", "envsubst '${BACKEND_URL} ${BACKEND_HOST}' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+CMD ["nginx", "-g", "daemon off;"]
