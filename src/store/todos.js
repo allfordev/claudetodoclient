@@ -4,7 +4,7 @@ import api from '@/services/api'
 
 export const useTodosStore = defineStore('todos', () => {
   const todos = ref([])
-  const stats = ref({ total: 0, completed: 0, pending: 0 })
+  const stats = ref({ total: 0, completed: 0, pending: 0, completed: 0, overdue: 0 })
   const loading = ref(false)
   const error = ref(null)
   const filter = ref('all') // all, pending, completed
@@ -52,6 +52,12 @@ export const useTodosStore = defineStore('todos', () => {
       todos.value.unshift(response.data)
       stats.value.total++
       stats.value.pending++
+
+      const now = new Date()
+      const dueDate = new Date(todoData.dueDate)
+      if (dueDate < now) {
+        stats.value.overdue++
+      }
       return response.data
     } catch (err) {
       error.value = err.response?.data?.message || 'Failed to create todo'
@@ -87,12 +93,22 @@ export const useTodosStore = defineStore('todos', () => {
         const wasCompleted = todos.value[index].completed
         todos.value[index] = response.data
         
+        const todo = todos.value[index];
+        const now = new Date()
+        const dueDate = new Date(todo.dueDate)
+        const overdueTodo = dueDate < now;
         if (wasCompleted) {
           stats.value.completed--
           stats.value.pending++
+          if (overdueTodo) {
+            stats.value.overdue++
+          }
         } else {
           stats.value.completed++
           stats.value.pending--
+          if (overdueTodo) {
+            stats.value.overdue--
+          }
         }
       }
       return response.data
@@ -117,6 +133,10 @@ export const useTodosStore = defineStore('todos', () => {
         stats.value.pending--
       }
       
+      if (todo.dueDate < new Date()) {
+        stats.value.overdue--
+      }
+
       return true
     } catch (err) {
       error.value = err.response?.data?.message || 'Failed to delete todo'

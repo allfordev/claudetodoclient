@@ -79,13 +79,17 @@ const filterOptions = [
       </div>
 
       <!-- Stats Cards -->
-      <div class="grid grid-cols-3 gap-4 mb-8 animate-slide-up">
+      <div class="grid grid-cols-4 gap-10 mb-8 animate-slide-up">
         <div class="card p-4 text-center">
           <p class="text-3xl font-display font-semibold text-ink-900">{{ todosStore.stats.total }}</p>
           <p class="text-sm text-ink-500 mt-1">Total Tasks</p>
         </div>
         <div class="card p-4 text-center">
-          <p class="text-3xl font-display font-semibold text-rust">{{ todosStore.stats.pending }}</p>
+          <p class="text-3xl font-display font-semibold text-rust">{{ todosStore.stats.overdue }}</p>
+          <p class="text-sm text-ink-500 mt-1">Overdue</p>
+        </div>
+        <div class="card p-4 text-center">
+          <p class="text-3xl font-display font-semibold text-orange-400">{{ todosStore.stats.pending }}</p>
           <p class="text-sm text-ink-500 mt-1">Pending</p>
         </div>
         <div class="card p-4 text-center">

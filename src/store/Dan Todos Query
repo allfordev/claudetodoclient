@@ -1,0 +1,18 @@
+--SELECT t.title, u.name, t.completed_at
+--    FROM todos t, 
+--    JOIN ON users u on t.user_id = u.user_id;
+
+--Completed tasks
+SELECT
+  t.title,
+  t.created_at,
+  t.due_date,
+  t.completed,
+  t.completed_at,
+  u.name
+FROM todos t
+  INNER JOIN users u
+    ON t.user_id = u.id
+WHERE
+  t.completed = 'false'
+  AND t.due_date < CURRENT_TIMESTAMP;

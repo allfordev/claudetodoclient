@@ -7,18 +7,21 @@ const todosStore = useTodosStore()
 
 const title = ref('')
 const priority = ref('medium')
+const dueDate = ref('')
 
 async function handleSubmit() {
   if (!title.value.trim()) return
   
   const result = await todosStore.createTodo({
     title: title.value.trim(),
+    dueDate: dueDate.value || null,
     priority: priority.value
   })
   
   if (result) {
     title.value = ''
     priority.value = 'medium'
+    dueDate.value = ''
     emit('created')
   }
 }
@@ -35,6 +38,13 @@ async function handleSubmit() {
           type="text"
           class="input"
           placeholder="What needs to be done?"
+          autofocus
+        />
+        <input
+          v-model="dueDate"
+          type="datetime-local"
+          class="input"
+          placeholder="When is it due?"
           autofocus
         />
       </div>
