@@ -4,7 +4,7 @@ import api from '@/services/api'
 
 export const useTodosStore = defineStore('todos', () => {
   const todos = ref([])
-  const stats = ref({ total: 0, completed: 0, pending: 0, completed: 0, overdue: 0 })
+  const stats = ref({ total: 0, completed: 0, pending: 0, overdue: 0 })
   const loading = ref(false)
   const error = ref(null)
   const filter = ref('all') // all, pending, completed
@@ -95,7 +95,7 @@ export const useTodosStore = defineStore('todos', () => {
         
         const todo = todos.value[index];
         const now = new Date()
-        const dueDate = new Date(todo.dueDate)
+        const dueDate = todo.dueDate ? new Date(todo.dueDate) : now;
         const overdueTodo = dueDate < now;
         if (wasCompleted) {
           stats.value.completed--
